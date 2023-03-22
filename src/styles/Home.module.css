@@ -11,6 +11,13 @@
   width: 100%;
 }
 
+.dialogWrapper {
+  border-radius: 5px;
+  max-height: 70vh;
+  overflow: hidden;
+  overflow-y: scroll;
+}
+
 .topSection {
   display: flex;
   margin: 0 auto;

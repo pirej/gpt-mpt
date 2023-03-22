@@ -45,7 +45,11 @@ export default function Home() {
   };
 
   const handleSubmit = (e: any) => {
-    console.log("disabled handlesubmit");
+    if (e.target.value.length > 0) {
+      setQuestion(e.target.value);
+      setCurrentInput("");
+      pingGpt(e);
+    }
   };
 
   const handleKeyDown = (e: any) => {
@@ -56,14 +60,12 @@ export default function Home() {
     }
   };
 
-  // ------------------
   useEffect(() => {
     if (question.length > 0) {
       setSession((prevState) => ({
         ...prevState,
         sesionQuestion: question,
       }));
-      // setQuestion("");
     }
   }, [question]);
 
@@ -73,26 +75,16 @@ export default function Home() {
         ...prevState,
         sesionAnswer: answer,
       }));
-      // setAnswer("");
     }
   }, [answer]);
 
-  // -------------------
-
   useEffect(() => {
-    // console.log("session effect e:", session);
     if (session.sesionQuestion.length > 0 && session.sesionAnswer.length > 0) {
       setSessions([...sessions, session]);
       setSession({ sesionQuestion: "", sesionAnswer: "" });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [session]);
-
-  // console.log("sessions ARE:", sessions);
-
-  // console.log("answer e:", answer);
-  // console.log("question e:", question);
-  // console.log("question length e:", question.length > 0);
 
   return (
     <>
@@ -113,6 +105,11 @@ export default function Home() {
           >
             GPT MPT
           </h2>
+          <div className={styles.dialogWrapper}>
+            {sessions?.map((item, idx) => {
+              return <Response key={idx} item={item} />;
+            })}
+          </div>
           <div className={styles.topSection}>
             <input
               type="text"
@@ -150,14 +147,6 @@ export default function Home() {
             </div>
           </div>
           <br></br>
-          {sessions?.map((item, idx) => {
-            return <Response key={idx} item={item} />;
-          })}
-          {/* {answer && (
-            <div className={styles.response}>
-              <h3>{answer}</h3>
-            </div>
-          )} */}
         </div>
       </main>
     </>

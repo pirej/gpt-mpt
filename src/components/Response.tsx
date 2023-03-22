@@ -14,7 +14,7 @@ const Response = ({ item }: any) => {
         <h3>You: {item.sesionQuestion}</h3>
       </div>
       <div className={styles.gpt}>
-        <h3>GPT: {item.gpt}</h3>
+        <h3>GPT: {item.sesionAnswer}</h3>
       </div>
     </div>
   );
