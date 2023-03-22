@@ -10,8 +10,12 @@ const Response = ({ item }: any) => {
 
   return (
     <div className={styles.response}>
-      <h3>You: {item.sesionQuestion}</h3>
-      <h3>GPT: {item.sesionAnswer}</h3>
+      <div className={styles.you}>
+        <h3>You: {item.sesionQuestion}</h3>
+      </div>
+      <div className={styles.gpt}>
+        <h3>GPT: {item.gpt}</h3>
+      </div>
     </div>
   );
 };
