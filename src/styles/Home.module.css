@@ -41,20 +41,32 @@
   -moz-box-shadow: 0px 2px 8px 0px rgba(140, 140, 140, 1);
 }
 
-.close {
+.btnWrap {
+  display: flex;
+  gap: 10px;
+}
+
+.close,
+.send {
   color: lightcoral;
   font-size: 1.5rem;
   background-color: white;
   border-radius: 5px;
   border: none;
   padding: 0.6rem;
+  white-space: nowrap;
 
   box-shadow: 0px 2px 5px 0px rgba(140, 140, 140, 0.75);
   -webkit-box-shadow: 0px 2px 5px 0px rgba(140, 140, 140, 0.75);
   -moz-box-shadow: 0px 2px 5px 0px rgba(140, 140, 140, 0.75);
 }
 
-.close:hover {
+.send {
+  color: teal;
+}
+
+.close,
+.send:hover {
   cursor: pointer;
 
   box-shadow: 0px 2px 8px 0px rgba(140, 140, 140, 1);

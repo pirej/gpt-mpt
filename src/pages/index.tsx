@@ -7,8 +7,16 @@ import axios from "axios";
 const inter = Inter({ subsets: ["latin"] });
 
 export default function Home() {
+  const [currentInput, setCurrentInput] = useState("");
   const [question, setQuestion] = useState("");
   const [answer, setAnswer] = useState("");
+  const [answers, setAnswers] = useState<any[]>([]);
+  const [questions, setQuestions] = useState<any[]>([]);
+  const [session, setSession] = useState({
+    question: "",
+    answer: "",
+  });
+
   const pingGpt = () => {
     // ------------
     const endpoint = "https://api.openai.com/v1/chat/completions";
@@ -26,6 +34,8 @@ export default function Home() {
       .post(endpoint, data, { headers })
       .then((response) => {
         setAnswer(response.data.choices[0].message.content);
+        const newAnswer: string = response.data.choices[0].message.content;
+        setAnswers([...answers, newAnswer]);
       })
       .catch((error) => {
         console.log(error);
@@ -34,12 +44,20 @@ export default function Home() {
     // ------------
   };
 
-  const handleClick = () => {
+  console.log("answers se:", answers);
+  console.log("questions se:", questions);
+
+  const handleSubmit = (e: any) => {
+    setQuestion(e.target.value);
+    setQuestions([...questions, e.target.value]);
+    setCurrentInput("");
     pingGpt();
   };
-
   const handleKeyDown = (e: any) => {
     if (e.key === "Enter") {
+      setQuestion(e.target.value);
+      setQuestions([...questions, e.target.value]);
+      setCurrentInput("");
       pingGpt();
     }
   };
@@ -59,16 +77,27 @@ export default function Home() {
             <input
               type="text"
               className={styles.input}
-              onChange={(e) => setQuestion(e.target.value)}
+              onChange={(e) => setCurrentInput(e.target.value)}
               onKeyDown={(e) => handleKeyDown(e)}
-              value={question}
+              value={currentInput}
             ></input>
-            <button
-              className={styles.close}
-              onClick={() => [setQuestion(""), setAnswer("")]}
-            >
-              clear
-            </button>
+            <div className={styles.btnWrap}>
+              <button className={styles.send} onClick={(e) => handleSubmit(e)}>
+                submit
+              </button>
+              <button
+                className={styles.close}
+                onClick={() => [
+                  setQuestion(""),
+                  setQuestions([]),
+                  setAnswer(""),
+                  setAnswers([]),
+                  setCurrentInput(""),
+                ]}
+              >
+                clear all
+              </button>
+            </div>
           </div>
           <br></br>
           {answer && (
