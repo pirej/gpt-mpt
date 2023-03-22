@@ -1,0 +1,74 @@
+.main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+  width: 60vw;
+  margin: 5rem auto;
+}
+
+.wrapper {
+  width: 100%;
+}
+
+.topSection {
+  display: flex;
+  margin: 0 auto;
+  align-items: center;
+}
+.input {
+  height: 3rem;
+  width: 100%;
+  margin-right: 10px;
+  font-size: 1.3rem;
+  padding-left: 10px;
+  border-radius: 5px;
+  border: none;
+  outline: none;
+  font-weight: 500;
+
+  font-family: inherit;
+  color: inherit;
+
+  box-shadow: 0px 2px 5px 0px rgba(140, 140, 140, 0.75);
+  -webkit-box-shadow: 0px 2px 5px 0px rgba(140, 140, 140, 0.75);
+  -moz-box-shadow: 0px 2px 5px 0px rgba(140, 140, 140, 0.75);
+}
+
+.input:hover {
+  box-shadow: 0px 2px 8px 0px rgba(140, 140, 140, 1);
+  -webkit-box-shadow: 0px 2px 8px 0px rgba(140, 140, 140, 1);
+  -moz-box-shadow: 0px 2px 8px 0px rgba(140, 140, 140, 1);
+}
+
+.close {
+  color: lightcoral;
+  font-size: 1.5rem;
+  background-color: white;
+  border-radius: 5px;
+  border: none;
+  padding: 0.6rem;
+
+  box-shadow: 0px 2px 5px 0px rgba(140, 140, 140, 0.75);
+  -webkit-box-shadow: 0px 2px 5px 0px rgba(140, 140, 140, 0.75);
+  -moz-box-shadow: 0px 2px 5px 0px rgba(140, 140, 140, 0.75);
+}
+
+.close:hover {
+  cursor: pointer;
+
+  box-shadow: 0px 2px 8px 0px rgba(140, 140, 140, 1);
+  -webkit-box-shadow: 0px 2px 8px 0px rgba(140, 140, 140, 1);
+  -moz-box-shadow: 0px 2px 8px 0px rgba(140, 140, 140, 1);
+}
+
+.response {
+  padding: 1rem;
+  background-color: #e1f2f5;
+  border-radius: 5px;
+  font-weight: 500;
+
+  box-shadow: 0px 2px 5px 0px rgba(140, 140, 140, 0.75);
+  -webkit-box-shadow: 0px 2px 5px 0px rgba(140, 140, 140, 0.75);
+  -moz-box-shadow: 0px 2px 5px 0px rgba(140, 140, 140, 0.75);
+}
