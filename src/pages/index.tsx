@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Head from "next/head";
 import { Inter } from "@next/font/google";
 import styles from "@/styles/Home.module.css";
@@ -11,11 +11,10 @@ export default function Home() {
   const [currentInput, setCurrentInput] = useState("");
   const [question, setQuestion] = useState("");
   const [answer, setAnswer] = useState("");
-  const [answers, setAnswers] = useState<any[]>([]);
-  const [questions, setQuestions] = useState<any[]>([]);
+  const [sessions, setSessions] = useState<any[]>([]);
   const [session, setSession] = useState({
-    question: "",
-    answer: "",
+    sesionQuestion: "",
+    sesionAnswer: "",
   });
 
   const pingGpt = () => {
@@ -35,8 +34,10 @@ export default function Home() {
       .post(endpoint, data, { headers })
       .then((response) => {
         setAnswer(response.data.choices[0].message.content);
-        const newAnswer: string = response.data.choices[0].message.content;
-        setAnswers([...answers, newAnswer]);
+        setSession((prevState) => ({
+          ...prevState,
+          sesionAnswer: response.data.choices[0].message.content,
+        }));
       })
       .catch((error) => {
         console.log(error);
@@ -45,23 +46,30 @@ export default function Home() {
     // ------------
   };
 
-  console.log("answers se:", answers);
-  console.log("questions se:", questions);
+  // console.log("answers se:", answers);
+  // console.log("questions se:", questions);
+  // console.log("session e:", session);
 
   const handleSubmit = (e: any) => {
-    setQuestion(e.target.value);
-    setQuestions([...questions, e.target.value]);
-    setCurrentInput("");
-    pingGpt();
+    console.log("disabled handlesubmit");
   };
+
   const handleKeyDown = (e: any) => {
     if (e.key === "Enter") {
       setQuestion(e.target.value);
-      setQuestions([...questions, e.target.value]);
+      setSession((prevState) => ({
+        ...prevState,
+        sesionQuestion: e.target.value,
+      }));
+
       setCurrentInput("");
       pingGpt();
     }
   };
+
+  useEffect(() => {
+    console.log("session d:", session);
+  }, [session]);
 
   return (
     <>
@@ -102,11 +110,8 @@ export default function Home() {
               <button
                 className={styles.close}
                 onClick={() => [
-                  setQuestion(""),
-                  setQuestions([]),
-                  setAnswer(""),
-                  setAnswers([]),
                   setCurrentInput(""),
+                  setSession({ sesionQuestion: "", sesionAnswer: "" }),
                 ]}
               >
                 <Image
