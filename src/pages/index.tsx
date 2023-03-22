@@ -4,6 +4,7 @@ import { Inter } from "@next/font/google";
 import styles from "@/styles/Home.module.css";
 import axios from "axios";
 import Image from "next/image";
+import Response from "@/components/Response";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -17,8 +18,7 @@ export default function Home() {
     sesionAnswer: "",
   });
 
-  const pingGpt = () => {
-    // ------------
+  const pingGpt = (e: any) => {
     const endpoint = "https://api.openai.com/v1/chat/completions";
     const headers = {
       "Content-Type": "application/json",
@@ -26,7 +26,7 @@ export default function Home() {
     };
     const data = {
       model: "gpt-3.5-turbo",
-      messages: [{ "role": "user", "content": question }],
+      messages: [{ "role": "user", "content": e.target.value }],
       temperature: 0.7,
     };
 
@@ -42,34 +42,57 @@ export default function Home() {
       .catch((error) => {
         console.log(error);
       });
-
-    // ------------
   };
-
-  // console.log("answers se:", answers);
-  // console.log("questions se:", questions);
-  // console.log("session e:", session);
 
   const handleSubmit = (e: any) => {
     console.log("disabled handlesubmit");
   };
 
   const handleKeyDown = (e: any) => {
-    if (e.key === "Enter") {
+    if (e.key === "Enter" && e.target.value.length > 0) {
       setQuestion(e.target.value);
-      setSession((prevState) => ({
-        ...prevState,
-        sesionQuestion: e.target.value,
-      }));
-
       setCurrentInput("");
-      pingGpt();
+      pingGpt(e);
     }
   };
 
+  // ------------------
   useEffect(() => {
-    console.log("session d:", session);
+    if (question.length > 0) {
+      setSession((prevState) => ({
+        ...prevState,
+        sesionQuestion: question,
+      }));
+      // setQuestion("");
+    }
+  }, [question]);
+
+  useEffect(() => {
+    if (answer.length > 0) {
+      setSession((prevState) => ({
+        ...prevState,
+        sesionAnswer: answer,
+      }));
+      // setAnswer("");
+    }
+  }, [answer]);
+
+  // -------------------
+
+  useEffect(() => {
+    // console.log("session effect e:", session);
+    if (session.sesionQuestion.length > 0 && session.sesionAnswer.length > 0) {
+      setSessions([...sessions, session]);
+      setSession({ sesionQuestion: "", sesionAnswer: "" });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [session]);
+
+  // console.log("sessions ARE:", sessions);
+
+  // console.log("answer e:", answer);
+  // console.log("question e:", question);
+  // console.log("question length e:", question.length > 0);
 
   return (
     <>
@@ -112,6 +135,9 @@ export default function Home() {
                 onClick={() => [
                   setCurrentInput(""),
                   setSession({ sesionQuestion: "", sesionAnswer: "" }),
+                  setSessions([]),
+                  setAnswer(""),
+                  setQuestion(""),
                 ]}
               >
                 <Image
@@ -124,11 +150,14 @@ export default function Home() {
             </div>
           </div>
           <br></br>
-          {answer && (
+          {sessions?.map((item, idx) => {
+            return <Response key={idx} item={item} />;
+          })}
+          {/* {answer && (
             <div className={styles.response}>
               <h3>{answer}</h3>
             </div>
-          )}
+          )} */}
         </div>
       </main>
     </>
