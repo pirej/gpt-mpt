@@ -3,7 +3,6 @@ import Head from "next/head";
 import { Inter } from "@next/font/google";
 import styles from "@/styles/Home.module.css";
 import axios from "axios";
-import Image from "next/image";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -73,15 +72,7 @@ export default function Home() {
       </Head>
       <main className={styles.main}>
         <div className={styles.wrapper}>
-          <h2
-            style={{
-              textAlign: "center",
-              marginBottom: "1rem",
-              marginTop: "5rem",
-            }}
-          >
-            GPT MPT
-          </h2>
+          <h2 style={{ textAlign: "center", marginBottom: "1rem" }}>GPT MPT</h2>
           <div className={styles.topSection}>
             <input
               type="text"
@@ -92,12 +83,7 @@ export default function Home() {
             ></input>
             <div className={styles.btnWrap}>
               <button className={styles.send} onClick={(e) => handleSubmit(e)}>
-                <Image
-                  width={30}
-                  height={30}
-                  src="/send.png"
-                  alt="clear"
-                ></Image>
+                submit
               </button>
               <button
                 className={styles.close}
@@ -109,12 +95,7 @@ export default function Home() {
                   setCurrentInput(""),
                 ]}
               >
-                <Image
-                  width={30}
-                  height={30}
-                  src="/delete.png"
-                  alt="clear"
-                ></Image>
+                clear all
               </button>
             </div>
           </div>
