@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Head from "next/head";
 import { Inter } from "@next/font/google";
 import styles from "@/styles/Home.module.css";
@@ -17,6 +17,7 @@ export default function Home() {
     sesionQuestion: "",
     sesionAnswer: "",
   });
+  const messagesRef = useRef<HTMLDivElement>(null);
 
   const pingGpt = (e: any) => {
     const endpoint = "https://api.openai.com/v1/chat/completions";
@@ -86,6 +87,13 @@ export default function Home() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [session]);
 
+  useEffect(() => {
+    const messagesDiv = messagesRef.current;
+    if (messagesDiv) {
+      messagesDiv.scrollTop = messagesDiv.scrollHeight;
+    }
+  });
+
   return (
     <>
       <Head>
@@ -105,7 +113,7 @@ export default function Home() {
           >
             GPT MPT
           </h2>
-          <div className={styles.dialogWrapper}>
+          <div ref={messagesRef} className={styles.dialogWrapper}>
             {sessions?.map((item, idx) => {
               return <Response key={idx} item={item} />;
             })}
