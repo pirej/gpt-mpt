@@ -18,8 +18,9 @@ export default function Home() {
     sesionAnswer: "",
   });
   const messagesRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
 
-  const pingGpt = (e: any) => {
+  const pingGpt = () => {
     const endpoint = "https://api.openai.com/v1/chat/completions";
     const headers = {
       "Content-Type": "application/json",
@@ -27,7 +28,7 @@ export default function Home() {
     };
     const data = {
       model: "gpt-3.5-turbo",
-      messages: [{ "role": "user", "content": e.target.value }],
+      messages: [{ "role": "user", "content": inputRef.current!.value }],
       temperature: 0.7,
     };
 
@@ -45,19 +46,19 @@ export default function Home() {
       });
   };
 
-  const handleSubmit = (e: any) => {
-    if (e.target.value.length > 0) {
-      setQuestion(e.target.value);
+  const handleSubmit = () => {
+    if (inputRef.current!.value.length > 0) {
+      setQuestion(inputRef.current!.value);
       setCurrentInput("");
-      pingGpt(e);
+      pingGpt();
     }
   };
 
   const handleKeyDown = (e: any) => {
-    if (e.key === "Enter" && e.target.value.length > 0) {
-      setQuestion(e.target.value);
+    if (e.key === "Enter" && inputRef.current!.value.length > 0) {
+      setQuestion(inputRef.current!.value);
       setCurrentInput("");
-      pingGpt(e);
+      pingGpt();
     }
   };
 
@@ -120,14 +121,15 @@ export default function Home() {
           </div>
           <div className={styles.topSection}>
             <input
+              ref={inputRef}
               type="text"
               className={styles.input}
-              onChange={(e) => setCurrentInput(e.target.value)}
+              onChange={() => setCurrentInput(inputRef.current!.value)}
               onKeyDown={(e) => handleKeyDown(e)}
               value={currentInput}
             ></input>
             <div className={styles.btnWrap}>
-              <button className={styles.send} onClick={(e) => handleSubmit(e)}>
+              <button className={styles.send} onClick={handleSubmit}>
                 <Image
                   width={30}
                   height={30}
